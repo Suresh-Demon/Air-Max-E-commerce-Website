@@ -1,0 +1,151 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block 'main' %}
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - Your E-Commerce Website Name</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+
+main {
+    padding: 50px;
+}
+
+.about-us, .details, .cta, .team {
+    background-color: white;
+    padding: 20px;
+    margin: 20px auto;
+    max-width: 1200px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.about-us h1, .details h2, .cta h2, .team h2 {
+    color: #333;
+    text-align: center;
+}
+
+.about-us p, .details p, .cta p, .team p {
+    color: #555;
+    line-height: 1.6;
+}
+
+.details {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.detail {
+    flex: 1 1 45%;
+    margin: 10px;
+    padding: 10px;
+    text-align: center;
+    background: #f9f9f9;
+    border-radius: 5px;
+}
+
+.cta {
+    text-align: center;
+    background-color: #ff4c4c;
+    color: white;
+    border-radius: 5px;
+}
+
+.cta button {
+    padding: 10px 20px;
+    background-color: #333;
+    color: white;
+    border: none;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.team {
+    text-align: center;
+}
+
+.team-member {
+    display: inline-block;
+    margin: 20px;
+}
+
+.team-member img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+}
+
+footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+}
+
+    </style>
+</head>
+<body>
+    <main>
+        <section class="about-us mt-5">
+            <h1>About Us</h1>
+            <p>Welcome to <strong>AIR MAX</strong>!</p>
+            <p>At <strong>AIR MAX</strong>,we are passionate about fashion and committed to providing you with the best in shoes and clothing. Founded in [Year of Establishment], our mission is to deliver high-quality, stylish, and comfortable products that cater to your unique sense of style.</p>
+        </section>
+        
+        <section class="details">
+            <div class="detail">
+                <h2>Our Story</h2>
+                <p>Air Max started with a simple idea: to offer a diverse range of shoes and clothing that reflect the latest trends while ensuring comfort and durability.</p>
+            </div>
+            <div class="detail">
+                <h2>What We Offer</h2>
+                <p>Shoes: From casual sneakers to elegant formal shoes, we have something for every occasion.</p>
+                <p>Clothing: Explore our selection of trendy tops, comfortable bottoms, chic dresses, and more.</p>
+            </div>
+            <div class="detail">
+                <h2>Quality and Style</h2>
+                <p>At Air max , we prioritize quality and style in everything we offer.</p>
+            </div>
+            <div class="detail">
+                <h2>Customer Satisfaction</h2>
+                <p>Your satisfaction is our top priority. We are committed to providing excellent customer service and a seamless shopping experience.</p>
+            </div>
+        </section>
+        
+  
+        
+        <section class="team">
+            <h2>Meet Our Creative Team</h2>
+            <div class="team-member">
+                <img src="static/MainApp/images/T-shirt.webp" alt="Amanda Lee">
+                <p>Amanda Lee</p>
+                <p>Creative Head</p>
+            </div>
+            <div class="team-member">
+                <img src="static/MainApp/images/T-shirt.webp" alt="Lee Stoner">
+                <p>Lee Stoner</p>
+                <p>Marketing Head</p>
+            </div>
+            <div class="team-member">
+                <img src="static/MainApp/images/T-shirt.webp" alt="Monica Geller">
+                <p>Monica Geller</p>
+                <p>Project Manager</p>
+            </div>
+        </section>
+    </main>
+    {% endblock 'main' %}
+</body>
+</html>
