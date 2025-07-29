@@ -6,7 +6,6 @@
 <!doctype html>
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -19,71 +18,116 @@
     .carousel {
         border-radius: 20px;
         box-shadow: 0 0 0.3rem #818080;
-        width: 400px;
-        height: 500px;
+        width: 90%;
+        max-width: 400px;
+        height: auto;
+        margin: auto;
+    }
+
+    .carousel img {
+        border-radius: 10px;
+        width: 100%;
+        height: auto;
     }
 
     .card {
         border: none;
-        margin-top: 40px;
+        margin-top: 130px;
     }
 
+    /* 
     .card-body {
-        margin-right: 100px;
-        margin-top: 80px;
+        margin: 20px;
+        padding: 20px;
+    } */
+
+
+    .quantity-controls {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .quantity-controls button {
+        border: none;
+        background: #000;
+        color: #fff;
+        width: 30px;
+        height: 30px;
+        font-size: 18px;
+        cursor: pointer;
     }
 
     .btn {
-        margin-top: 20px;
+        margin-top: 15px;
+        width: 100%;
+    }
+
+    .wishlist-btn {
+        background: #ff4d4d;
+        color: white;
+        width: 100%;
+    }
+
+    @media (max-width: 768px) {
+        .card-body {
+            text-align: center;
+        }
     }
 </style>
 
 <body>
 
-    <div class="card mb-3 p-5">
+    <div class="card mb-3">
         <div class="row g-0">
             {% for x in products %}
-            <div class="col-md-6">
-                <div id="carouselExampleControls" class="carousel slide ms-5" data-bs-ride="carousel">
+            <div class="col-md-6 d-flex justify-content-center">
+                <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
                     <div class="carousel-inner">
                         <div class="carousel-item active">
-                            <img src="{{ x.pimage.url }}" class="card-img-top" alt="...">
+                            <img src="{{ x.pimage.url }}" class="d-block w-100" alt="Product Image">
                         </div>
+                        {% if x.extra_images %}
+                        {% for img in x.extra_images %}
+                        <div class="carousel-item">
+                            <img src="{{ img.url }}" class="d-block w-100" alt="Product Image">
+                        </div>
+                        {% endfor %}
+                        {% endif %}
                     </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls"
+                        data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls"
+                        data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    </button>
                 </div>
             </div>
+
             <div class="col-md-6">
-                <div class="card-body">
-                    <h4 class="card-title">{{x.name}}</h4>
-                    <h5 class="card-text">{{x.pdetails}}</h5>
-                    {% if x.pcat == 1 %}
-                    <p class="card-text">Shoes</p>
-                    {% elif x.pcat == 2 %}
-                    <p class="card-text">T-Shirts</p>
-                    {% elif x.pcat == 3 %}
-                    <p class="card-text">Shorts</p>
-                    {% endif %}
-                    <h5><strong>Rs.{{x.price}}</strong></h5>
-                    <p class="card-text">Quantity</p>
-                    <input type="number" style="width: 70px;" placeholder="1"><br>
+                <div class="card-body p-5">
+                    <h4 class="card-title">{{ x.name }}</h4>
+                    <h5 class="card-text  mt-4">{{ x.pdetails }}</h5>
 
-                    <a href="/addtocart/{{x.id}}" class="btn btn-dark">ADD TO CART</a>
-                    <a href="/product" class="btn btn-dark">SHOP MORE</a>
+                    <h5 class="mt-4" style="color:rgb(242, 64, 10);"><strong><i
+                                class="fa-solid fa-indian-rupee-sign"></i> {{ x.price }}</strong></h5>
+                    <p>Prices include GST</p>
 
+                    <a href="/addtocart/{{ x.id }}" class="btn btn-dark">🛒 ADD TO CART</a>
+                    <a href="/product" class="btn btn-secondary">🔄 SHOP MORE</a>
 
 
                     {% if success %}
-                    <div class="alert alert-primary" role="alert">
-
-                        {{success}}
-
+                    <div class="alert alert-primary mt-3" role="alert">
+                        {{ success }}
                     </div>
                     {% endif %}
                 </div>
             </div>
-            {% endfor%}
+            {% endfor %}
         </div>
-    </div>
     </div>
 
 

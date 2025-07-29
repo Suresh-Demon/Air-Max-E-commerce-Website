@@ -2,15 +2,22 @@ from django.shortcuts import render,redirect
 from.models import productdata,cart,order
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate,login,logout
-from django.contrib import messages
 from django.core.paginator import Paginator,PageNotAnInteger,EmptyPage
 from django.db.models import Q
 import random
 import razorpay
+from django.contrib.auth import authenticate, login
+from django.contrib import messages
+# from django.db.utils import IntegrityError
+
 # Create your views here.
 
 def home(request):
-    return render(request,'home.html')
+    context={}
+    p=productdata.objects.filter(is_active=True)
+    context['products']=p
+    return render (request,'home.html',context)
+   
 
 
 def navbar(request):
@@ -33,19 +40,23 @@ def pdetails(request,pid):
     return render (request,'productDetails.html',context)
 
 
-def productpagi(request):
-    plist=productdata.objects.all()
-    page=request.GET.get('page',1)
+def search_product(request, name=None, pcat=None):
+    context = {}
+    if name:
+        products = productdata.objects.filter(Q(name__icontains=name) | Q(pcat__icontains= pcat))
+    else:
+        products = productdata.objects.all()  
+    query = request.GET.get('q', '')  
+    if query:
+        products = products.filter(name__icontains=query)
 
-    paginator=Paginator(plist,5)
-    try:
-        products=paginator.page(page)
-    except PageNotAnInteger:
-        products=paginator.page(1)
-    except EmptyPage:
-        products=paginator.page(paginator.num_pages)   
+    if not products.exists():
+        context['not_found_message'] = "No Products Found."
 
-    return render(request,'product.html',{'products':products}) 
+    context['products'] = products
+    context['query'] = query 
+    return render(request, 'product.html', context)
+
 
 
 def sort(request,sv):
@@ -82,27 +93,27 @@ def pcatfilter(request,cv):
     return render(request,'product.html',context)
 
 
-
 def user_login(request):        
-    if request.method=='POST':
-        uname=request.POST['uname']
-        upass=request.POST['upass']
-        if uname=="" or upass=="":
-            context={}
-            context['errormsg']="Field can't be empty- plz check it out !"
-            return render(request,'login.html',context)
+    if request.method == 'POST':
+        uname = request.POST['uname']
+        upass = request.POST['upass']
+        context = {}
+
+        if uname == "" or upass == "":
+            context['errormsg'] = "Fields can't be empty - please check!"
+            return render(request, 'home.html', context)  
+        u = authenticate(username=uname, password=upass)
+        if u is not None:
+            login(request, u)
+            return redirect('/')
         else:
-            u=authenticate(username=uname,password=upass)   
-            if u is not None:
-                login(request,u)
-                return redirect('/')
-            else:
-                context={}
-                context['errormsg']="Invalid username and password "
-                return render(request,'login.html',context)  
-                   
-    else:
-        return render(request,'login.html')
+            context['errormsg'] = "Invalid username or password"
+            return render(request, 'home.html', context) 
+
+    return render(request, 'home.html')
+
+
+
 
 
 
@@ -137,7 +148,9 @@ def register(request):
                   
     else:
         return render(request,'register.html')
-    
+
+
+
     
 def user_logout(request):
     logout(request)
@@ -177,25 +190,25 @@ def addtocart(request,pid):
     else:
         return redirect('/login')   
 
-
-
 def viewcart(request):
     if request.user.is_authenticated:
-        c=cart.objects.filter(uid=request.user.id)
-        np=len(c)
-        s=0
+        c = cart.objects.filter(uid=request.user.id)
+        np = len(c)
+        s = 0
         for x in c:
-           s=s+x.pid.price*x.qty
-        print(s)    
-        context={}
-        context['products']=c
-        context['total']=s
-        context['n']=np
-        return render(request,'cart.html',context)
-    
+            s += x.pid.price * x.qty
+
+        context = {
+            'products': c,
+            'total': s,
+            'n': np
+        }
+        return render(request, 'cart.html', context)
+
     else:
-        return redirect('/login')
-    
+        messages.error(request, "Please login to view your cart.")
+        return redirect('/')
+
 
 
 def updateqty(request,qv,cid):
@@ -211,6 +224,19 @@ def updateqty(request,qv,cid):
     return redirect('/viewcart')
 
 
+def updateqtyProduct(request,qv,cid):
+    c=cart.objects.filter(id=cid) 
+    if qv =='1': 
+        t=c[0].qty+1
+        c.update(qty=t)
+
+    else:
+        if c[0].qty > 1:
+            t=c[0].qty-1
+            c.update(qty=t)
+    return redirect('/pdetails')
+
+
 def remove(request,cid):
     c=cart.objects.filter(id=cid)
     c.delete()
@@ -222,35 +248,54 @@ def placeorder(request):
     c=cart.objects.filter(uid=userid)
     oid=random.randrange(100,9999)
     for x in c:
-        o=order.objects.create(order_id=oid,pid=x.pid,uid=x.uid,qty=x.qty)
-        o.save()
-        x.delete() # delete record from cart table 
-    orders=order.objects.filter(uid=request.user.id)
+        order.objects.create(order_id=oid,pid=x.pid,uid=x.uid,qty=x.qty).save()
+
+    orders=order.objects.filter(uid=userid) 
     context={}
     context['products']=orders
     np=len(orders)
     s=0
     for x in orders:
         s=s+x.pid.price*x.qty
+        
     context['total']=s
     context['n']=np
-
+   
     return render(request,'placeorder.html',context)    
+
+def removeorder(request,oid):
+    c=order.objects.filter(id=oid)
+    c.delete()
+    return redirect('/placeorder')
+
+
+
 
 
 def makepayment(request):
-    orders=order.objects.filter(uid=request.user.id)
-    s=0
+    userid = request.user.id
+    orders = order.objects.filter(uid=userid)
+    s = 0
+    oid = None 
+    
     for x in orders:
-        s=s+x.pid.price*x.qty*100
-        oid=x.order_id
-        
+        s += x.pid.price * x.qty * 100
+        oid = x.order_id 
+    
+    if not orders:
+        return redirect('/placeorder')  
     print(oid)
     client = razorpay.Client(auth=("rzp_test_t3q4uoB0Hc14De", "6dqrlj1EtBqOjDoEjRjSe60w"))
-    data = { "amount": s, "currency": "INR", "receipt": "oid" }
+    data = {"amount": s, "currency": "INR", "receipt": str(oid)}
     payment = client.order.create(data=data)
     print(payment)
-    context={}
-    context['data']=payment
-    return render(request,"home.html",context)
+
+    context = {}
+    context['data'] = payment
+
+    return render(request, "placeorder.html", context )
+
+
     
+
+

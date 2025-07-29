@@ -1,4 +1,6 @@
 {% extends 'base.html' %}
+ {% include 'login.html' %}
+
 {% load static %}
 {% block 'main' %}
 <!DOCTYPE html>
@@ -14,66 +16,170 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 </head>
 <style>
-   .gallery {
-        margin: 10px;
-        border: 1px solid #ccc;
-        float: left;
-        width: 270px;
+    .product-link {
+        text-decoration: none;
+        color: inherit;
+        display: block;
+        text-align: center;
+        padding: 10px;
     }
 
-   .gallery:hover {
-        border: 1px solid #777;
+    .gallery {
+        width: 280px;
+        margin: 25px;
+        padding: 10px;
+        border-radius: 5px;
+        overflow: hidden;
+        transition: transform 0.3s ease-in-out;
+
+    }
+
+    .gallery:hover {
+        transform: scale(1.05);
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
     }
 
     .gallery img {
         width: 100%;
-        height: auto;
+        height: 280px;
+        border-radius: 5px;
+        /* Smaller, fixed height for a compact view */
+        object-fit: cover;
     }
 
     .desc {
-        padding: 15px;
+        padding: 5px;
         text-align: center;
+        font-weight: bold;
+        font-size: 14px;
+        /* Adjust font size as needed */
+    }
+
+    .btn-dark {
+        transition: background-color 0.3s, transform 0.2s;
+    }
+
+    .btn-dark:hover {
+        background-color: #007bff;
+        transform: translateY(-3px);
+    }
+
+
+    .info-section {
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+        background: white;
+        flex-wrap: wrap;
+        text-align: center;
+    }
+
+    .info-box {
+        display: inline-flex;
+        align-items: center;
+        margin: 5px;
+        padding: 15px;
+        transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        border-radius: 8px;
+        box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .info-box:hover {
+        transform: scale(1.1);
+        box-shadow: 4px 4px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .info-box i {
+        font-size: 30px;
+        color: #146292;
+    }
+
+    .info-text h3 {
+        font-size: 16px;
+        color: #333;
+        font-weight: bold;
+    }
+
+    .info-text p {
+        font-size: 14px;
+        color: #666;
+    }
+
+    @media (max-width: 768px) {
+        .info-section {
+            flex-direction: column;
+
+        }
+    }
+
+ 
+    .product-img {
+        width: 100%;
+        height: 300px;
+        object-fit: cover;
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .product-img:hover {
+        transform: scale(1.05);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .carousel-inner {
+        background-color: #f8f9fa;
+        border-radius: 12px;
+        padding: 20px 0;
+    }
+
+    .carousel-item {
+        transition: transform 0.6s ease-in-out;
+    }
+
+    @media (max-width: 768px) {
+        .product-img {
+            height: 180px;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .product-img {
+            height: 150px;
+        }
     }
 </style>
 
 <body>
-  
+
     <!-- Header Start-->
-    <div id="carouselExampleCaptions" class="carousel slide container-fluid">
-        <div class="carousel-indicators">
-            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active"
-                aria-current="true" aria-label="Slide 1"></button>
-            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1"
-                aria-label="Slide 2"></button>
-            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2"
-                aria-label="Slide 3"></button>
-        </div>
+
+    <div id="carouselExampleIndicators" class="carousel slide container-fluid" data-bs-ride="carousel"
+        style="margin-top: 76px;">
         <div class="carousel-inner">
             <div class="carousel-item active">
-                <img src="media/images/EOSS_UPDATED_-_WEB_2_1.webp" class="d-block w-100" alt="..." autoplay muted>
-                
+                <img src="media/images/ASICS are popular.webp" class="d-block"
+                    style="width: 100%; height: 450px;" alt="..." autoplay muted>
             </div>
             <div class="carousel-item">
-                <img src="media/images/NOVABLAST_4_-_3_New_colors_-_1920x800.jpg" class="d-block w-100" alt="...">
-                <div class="carousel-caption d-none d-md-block">
-                    <h5>Second slide label</h5>
-                    <p>Some representative placeholder content for the second slide.</p>
-                </div>
+
+                <img src="media/images/full_banner_desktop.webp" class="d-block " style="width: 100%; height: 450px;"
+                    alt="..." autoplay muted>
+
             </div>
             <div class="carousel-item">
-                <img src="media/images/NOVABLAST_4_LE_-_1920x800.jpg" class="d-block w-100" alt="...">
-                <div class="carousel-caption d-none d-md-block">
-                    <h5>Third slide label</h5>
-                    <p>Some representative placeholder content for the third slide.</p>
-                </div>
+
+                <img src="media/images/NOVABLAST_4_LE_-_1920x800.jpg" class="d-block"
+                    style="width: 100%; height: 450px;" alt="..." autoplay muted>
+
             </div>
         </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions"
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
             data-bs-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
             <span class="visually-hidden">Previous</span>
         </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions"
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
             data-bs-slide="next">
             <span class="carousel-control-next-icon" aria-hidden="true"></span>
             <span class="visually-hidden">Next</span>
@@ -81,169 +187,174 @@
     </div>
     <!-- Header End-->
 
-    <!-- slide image start-->
-    <div class="container-xxl m-5">
-        <div id="carouselExampleSlidesOnly" class="carousel slide " data-bs-ride="carousel">
+
+    <div class="container-xl mt-4">
+        <h2 class="text-center mb-4 fw-bold">TOP PRODUCTS</h2>
+
+        <div id="topProductsCarousel" class="carousel slide" data-bs-ride="carousel">
+
+            <div class="carousel-indicators">
+                <button type="button" data-bs-target="#topProductsCarousel" data-bs-slide-to="0" class="active"
+                    aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#topProductsCarousel" data-bs-slide-to="1"
+                    aria-label="Slide 2"></button>
+                <button type="button" data-bs-target="#topProductsCarousel" data-bs-slide-to="2"
+                    aria-label="Slide 3"></button>
+            </div>
+
+
             <div class="carousel-inner">
-                <h2 class="text-center">TOP PRODUCTS</h2>
                 <div class="carousel-item active">
-                    <div class="row p-4">
-                        <div class="col"><img src="media/images/shoes-qql6pp.png" class="d-block w-100"
-                                alt="..."></div>
-                        <div class="col"><img src="media/images/NIKE+QUEST+6.png" class="d-block w-100"
-                                alt="..."></div>
-                        <div class="col"><img src="media/images/jordan-max-aura-6-shoes.jpeg" class="d-block w-100"
-                                alt="..."></div>
-                        <div class="col"><img src="media/images/JORDANMVP.png" class="d-block w-100"
-                                alt="..."></div>
-                        <div class="col"><img src="media/images/AIRZOOMPEGASUS41OLY.png" class="d-block w-100"
-                                alt="..."></div>
-                    </div>
-                </div>
-                <div class="carousel-item">
-                    <div class="row">
-                        <div class="col"><img src="media/images/white-MODEL4.jpg" class="d-block w-100" alt="...">
+                    <div class="row g-4 p-4 text-center">
+                        <div class="col-6 col-md-3">
+                            <img src="media/images/shoes-qql6pp.png" class="product-img" alt="Shoes">
                         </div>
-                        <div class="col"><img src="media/images/golden-state-warriors-dna-dri-fit-nba-15cm-shorts-9r7vVw.png" class="d-block w-100" alt="...">
+                        <div class="col-6 col-md-3">
+                            <img src="media/images/NIKE+QUEST+6.png" class="product-img" alt="Nike Quest">
                         </div>
-                        <div class="col"><img src="media/images/ASMNKDFCHALLENGER5BFSHO.png" class="d-block w-100" alt="...">
+                        <div class="col-6 col-md-3">
+                            <img src="media/images/jordan-max-aura-6-shoes.jpeg" class="product-img"
+                                alt="Jordan Max Aura">
                         </div>
-                        <div class="col"><img src="media/images/white-MODEL4.jpg"  class="d-block w-100" alt="...">
-                        </div>
-                        <div class="col"><img src="media/images/golden-state-warriors-dna-dri-fit-nba-15cm-shorts-9r7vVw.png"  class="d-block w-100" alt="...">
+                        <div class="col-6 col-md-3">
+                            <img src="media/images/JORDANMVP.png" class="product-img" alt="Jordan MVP">
                         </div>
                     </div>
                 </div>
+
                 <div class="carousel-item">
-                    <div class="row">
-                        <div class="col"><img src="media/images/T-shirt_1.webp" class="d-block w-100" alt="..."></div>
-                        <div class="col"><img src="media/images/T-shirt.webp" class="d-block w-100" alt="..."></div>
-                        <div class="col"><img src="media/images/sportswear-essentials-oversized-t-shirt-TQWNGw.png" class="d-block w-100" alt="..."></div>
-                        <div class="col"><img src="media/images/shopping.webp" class="d-block w-100" alt="..."></div>
-                        <div class="col"><img src="media/images/ASMNSWTEEM90BREAKING_1OlwmUZ.png" class="d-block w-100" alt="..."></div>
+                    <div class="row g-4 p-4 text-center">
+                        <div class="col-6 col-md-3">
+                            <img src="media/images/Brooklyn Nets Jordan Brand 1.jpg " class="product-img" alt="White Model">
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <img src="media/images/nike 4.jpg"
+                                class="product-img" alt="Warriors Shorts">
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <img src="media/images/Nike Dri-FIT 2.jpg" class="product-img"
+                                alt="Challenger Shoes">
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <img src="media/images/Nike Men's Dry 3.jpg" class="product-img" alt="White Model Again">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="carousel-item">
+                    <div class="row g-4 p-4 text-center">
+                        <div class="col-6 col-md-3">
+                            <img src="media/images/nike Heart 1.jpg" class="product-img" alt="T-shirt 1">
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <img src="media/images/adidas men's.jpg" class="product-img" alt="T-shirt 2">
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <img src="media/images/PUMA T-Shirt Herren.jpg"
+                                class="product-img" alt="Sportswear T-shirt">
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <img src="media/images/Nike Dri-fit 1234.jpg" class="product-img" alt="Shopping">
+                        </div>
                     </div>
                 </div>
             </div>
+
         </div>
     </div>
 
+
+
+
     <!-- slide image end-->
     <section class="p-4">
-        <img src="media/images/t-shirts-india-banner-1920-1920x350.webp" class="d-block w-100" alt="">
+        <img src="media/images/ChatGPT Image Just Do it.png" class="d-block w-100"
+            style="border-radius: 10px; height:500px ;" alt="">
     </section>
+
 
     <!--home product  start -->
 
-
-    <div class="container-xl shadow">
-        <div class="row mt-5">
+    <div class="container-xl">
+        <div class="row mt-3 g-2">
+            <h2>TOP TRENDING</h2>
+            {% for x in products|slice:":8" %}
             <div class="col-md-3">
-                <div class="gallery p-2 shadow-lg">
-                    <img src="media/images/NIKE+QUEST+6 (1).png" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h6 class="card-title">Nike</h6>
-                        <p>Rs.19999</p>
-                    </div>
+                <div class="gallery">
+                    <a href="/pdetails/{{ x.id }}" class="product-link">
+                        <img src="{{ x.pimage.url }}" alt="Product Image">
+                        <div class="desc">{{ x.name }}</div>
+                        <p>Rs.{{ x.price }}</p>
+                    </a>
                 </div>
             </div>
-
-            <div class="col-md-3">
-                <div class="gallery p-2 shadow-lg">
-                    <img src="media/images/NIKE+QUEST+6.png" class="card-img-top" alt="...">
-                    <div class="card-body mt-3">
-                        <h6 class="card-title">Nike</h6>
-                        <p>Rs.19999</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-3">
-                <div class="gallery p-2 shadow-lg">
-                    <img src="media/images/shoes-qql6pp.png" class="card-img-top" alt="...">
-                    <div class="card-body mt-3">
-                        <h6 class="card-title">Nike</h6>
-                        <p>Rs.19999</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-3">
-                <div class="gallery p-2 shadow-lg">
-                    <img src="media/images/jordan-max-aura-6-shoes.jpeg" class="card-img-top" alt="...">
-                    <div class="card-body mt-3">
-                        <h6 class="card-title">Nike</h6>
-                        <p>Rs.19999</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-3">
-                <div class="gallery p-2 shadow-lg">
-                    <img src="media/images/jumpman-mvp-shoes-JV1HCs.png" class="card-img-top" alt="...">
-                    <div class="card-body mt-3">
-                        <h6 class="card-title">Nike</h6>
-                        <p>Rs.19999</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-3">
-                <div class="gallery p-2 shadow-lg">
-                    <img src="media/images/JORDAN+MVP.png" class="card-img-top" alt="...">
-                    <div class="card-body mt-3">
-                        <h6 class="card-title">Nike</h6>
-                        <p>Rs.19999</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-3">
-                <div class="gallery p-2 shadow-lg">
-                    <img src="media/images/AIRZOOMPEGASUS41OLY.png" class="card-img-top" alt="...">
-                    <div class="card-body mt-3">
-                        <h6 class="card-title">Nike</h6>
-                        <p>Rs.19999</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-3">
-                <div class="gallery p-2 shadow-lg">
-                    <img src="media/images/jordan-max-aura-6-shoes.jpeg" class="card-img-top" alt="...">
-                    <div class="card-body mt-3">
-                        <h6 class="card-title">Nike</h6>
-                        <p>Rs.19999</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <a href="/product" class="btn btn-info " >SHOP MORE</a>
-            </div>
-         
+            {% endfor %}
         </div>
-        </div>
-    <!--home product  end -->
-    <section class="p-4">
-        <img src="media/images/FA24_NikexPartners_ElectricPack_METTA_HomePage_.webp" class="d-block w-100" alt="" style="object-fit: contain;">
-    </section>
+    </div>
+
+    </div>
+
+    <div class="text-center mt-4">
+        <a href="/product"><button class="btn btn-outline-dark">View More</button></a>
+    </div>
 
 
-    <section class="features py-5">
-        <div class="container">
-            <div class="row text-center">
-                <div class="col-md-3 shadow" style="height: 50px; align-content: center;"><i class="fas fa-truck"></i> Free Shipping Worldwide</div>
-                <div class="col-md-3 shadow" style="height: 50px; align-content: center;"><i class="fas fa-money-check-alt"></i> Cash on Delivery</div>
-                <div class="col-md-3 shadow" style="height: 50px; align-content: center;"><i class="fas fa-gift"></i> Special Gift Card</div>
-                <div class="col-md-3 shadow" style="height: 50px; align-content: center;"><i class="fas fa-headset"></i> 24/7 Customer Service</div>
+    <div class="mt-4">
+        <img src="https://images.puma.com/image/upload/c_scale,f_auto,q_auto:good,w_6000/cms/images/a25cc17692475be508692828c44e68b35240f24e?_a=BAMAJacc0"
+            alt="" width="100%" style="border-radius: 20px;">
+    </div>
+
+
+    <div class="info-section">
+        <div class="info-box">
+            <i class="fas fa-truck"></i>
+            <div class="info-text">
+                <h3>Free Shipping</h3>
+                <p>Free shipping for all orders</p>
             </div>
         </div>
-    </section>
+        <div class="info-box">
+            <i class="fas fa-undo"></i>
+            <div class="info-text">
+                <h3>Easy Returns</h3>
+                <p>Simply return it within 7 days</p>
+            </div>
+        </div>
+        <div class="info-box">
+            <i class="fas fa-shield-alt"></i>
+            <div class="info-text">
+                <h3>Secure Payment</h3>
+                <p>Safe and secure payment</p>
+            </div>
+        </div>
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
 
-        {% endblock 'main' %}
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            let myCarousel = document.querySelector("#topProductsCarousel");
+            let carousel = new bootstrap.Carousel(myCarousel, {
+                interval: 2000,
+                pause: "hover",
+                wrap: true
+            });
+        });
+
+    </script>
+    {% if errormsg %}
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var loginModal = new bootstrap.Modal(document.getElementById('exampleModalLOGIN'));
+            loginModal.show();
+        });
+    </script>
+    {% endif %}
+
+
+    {% endblock 'main' %}
 </body>
 
 </html>
